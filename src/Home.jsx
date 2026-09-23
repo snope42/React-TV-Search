@@ -1,12 +1,11 @@
-
+import Search from "./Search.jsx";
 
 export default function Home() {
 
     return(
 
         <>
-            <div className={'center'}>
-            </div>
+            <Search></Search>
         </>
 
     );
