@@ -56,7 +56,8 @@ export default function Search() {
                 <div id={'movies'} className={'list'}>
                     {shows.map(show => (
                         <Card
-                            key={show.id}
+                            key={show + show.id}
+                            id={show.id}
                             type={show.type}
                             title={show.title || show.name}
                             image={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
