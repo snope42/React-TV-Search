@@ -1,8 +1,10 @@
+import {useNavigate} from "react-router";
 
 export default function Card(props) {
+    const navigate = useNavigate();
 
-    function sendTo(page) {
-
+    function sendToDetails() {
+        navigate(`/${props.type}/${props.id}`);
     }
 
     return(
@@ -15,7 +17,7 @@ export default function Card(props) {
                 display: 'flex', flexDirection: 'column'
             }}  className={'pointer'}
 
-            onClick={sendTo(props.id)}
+            onClick={sendToDetails}
         >
             <img src={props.image} alt={''} style={{width: '100%', height: '100px', backgroundColor: 'black'}} />
             <label style={{fontSize: '0.5em'}}>{props.type}</label>
