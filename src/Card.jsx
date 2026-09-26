@@ -11,7 +11,7 @@ export default function Card(props) {
 
         <div
             style={{
-                width: '111px',
+                width: '130px',
                 height: '170px',
                 marginRight: '20px',
                 display: 'flex', flexDirection: 'column'

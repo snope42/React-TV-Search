@@ -1,51 +1,72 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Card from "./Card.jsx";
+import ShowsCategory from "./ShowsCategory.js";
 
 const API_KEY = import.meta.env.VITE_TMDB_KEY;
 
-export default function Search() {
+export default function Search(props) {
     const [search, setSearch] = useState('');
     const [shows, setShows] = useState([]);
     const [loading, setLoading] = useState(false);
 
     async function lookup() {
         setLoading(true);
+        const results = [];
 
-        const movieResponse = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${search}`);
-        const tvResponse = await fetch(`https://api.themoviedb.org/3/search/tv?api_key=${API_KEY}&query=${search}`);
+        if (
+            props.category === ShowsCategory.MOVIE ||
+            props.category === ShowsCategory.ALL
+        ) {
+            const movieResponse = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${search}`);
 
-        if (!movieResponse.ok) {
-            setLoading(false);
-            return <div className={'center'}>{movieResponse.status + ' ' + movieResponse.statusText}</div>;
+            if (!movieResponse.ok) {
+                setLoading(false);
+                return <div className={'center'}>{movieResponse.status + ' ' + movieResponse.statusText}</div>;
+            }
+            const movieData = await movieResponse.json();
+
+            const movies = movieData.results.map(movie => ({
+                ...movie,
+                type: 'movie'
+            }));
+
+            results.push(...movies);
         }
-        if (!tvResponse.ok) {
-            setLoading(false);
-            return <div className={'center'}>{tvResponse.status + ' ' + tvResponse.statusText}</div>;
+        if (
+            props.category === ShowsCategory.TV ||
+            props.category === ShowsCategory.ALL
+        ) {
+            const tvResponse = await fetch(`https://api.themoviedb.org/3/search/tv?api_key=${API_KEY}&query=${search}`);
+
+            if (!tvResponse.ok) {
+                setLoading(false);
+                return <div className={'center'}>{tvResponse.status + ' ' + tvResponse.statusText}</div>;
+            }
+            const tvData = await tvResponse.json();
+
+            const tvSeries = tvData.results.map(serie => ({
+                ...serie,
+                type: 'tv'
+            }));
+
+            results.push(...tvSeries);
         }
-
-        const movieData = await movieResponse.json();
-        const tvData = await tvResponse.json();
-
-        const movies = movieData.results.map(movie => ({
-           ...movie,
-           type: 'movie'
-        }));
-        const tvSeries = tvData.results.map(serie => ({
-            ...serie,
-            type: 'tv'
-        }));
-
-        const results = [
-            ...movies,
-            ...tvSeries
-        ];
 
         if (results.length === 0) setShows(null);
-        else setShows(results);
+        else {
+            results.sort((a, b) => b.popularity - a.popularity);
+            setShows(results);
+        }
 
         setLoading(false);
 
     }
+
+    useEffect(() => {
+        if (search) {
+            lookup();
+        }
+    }, [props.category]);
 
     return (
 

@@ -37,3 +37,18 @@ body {
     flex-wrap: wrap;
     overflow-y: scroll;
 }
+
+header {
+    background-color: steelblue;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+}
+.headerOptions {
+    background-color: transparent;
+    border: none;
+    width: 60px;
+    font-family: monospace;
+    font-weight: bold;
+    transition: color 0.3s;
+}
