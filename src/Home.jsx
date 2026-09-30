@@ -1,9 +1,11 @@
 import Search from "./Search.jsx";
 import ShowsCategory from "./ShowsCategory.js";
 import {useState} from "react";
+import {useNavigate} from "react-router";
 
 export default function Home() {
 
+    const navigate = useNavigate();
     const [categorySelected, setCategorySelected] = useState(ShowsCategory.ALL);
 
     return(
@@ -22,6 +24,9 @@ export default function Home() {
                     onClick={() => setCategorySelected(ShowsCategory.TV)}
                     style={{color: categorySelected === ShowsCategory.TV ? 'wheat' : 'white'}}
                     className={'headerOptions'}>TV</button>
+                <button id={'favorites'} onClick={() => navigate('/favorites')}>
+                    Favorites
+                </button>
             </header>
             <Search category={categorySelected}></Search>
         </>

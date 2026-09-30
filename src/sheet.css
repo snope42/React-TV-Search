@@ -37,12 +37,19 @@ body {
     flex-wrap: wrap;
     overflow-y: scroll;
 }
+#favoriteMovies {
+    flex-wrap: wrap;
+    overflow-y: scroll;
+}
 
 header {
     background-color: steelblue;
     height: 30px;
     display: flex;
     justify-content: center;
+    position: sticky;
+    z-index: 67;
+    top: 0;
 }
 .headerOptions {
     background-color: transparent;
@@ -51,4 +58,28 @@ header {
     font-family: monospace;
     font-weight: bold;
     transition: color 0.3s;
+}
+
+#favorites {
+    border: none;
+    background-color: transparent;
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    right: 5px;
+    height: 30px;
+}
+
+#favorite {
+    border: none;
+    font-weight: bold;
+    background-color: transparent;
+    position: relative;
+    left: 110px;
+    bottom: 20px;
+    width: 20px;
+    outline: none;
+}
+#favorite:hover {
+    cursor: pointer;
 }
